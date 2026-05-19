@@ -27,19 +27,15 @@ client.on('ready', () => {
 
 // MENSAGENS
 client.on('message', async (message) => {
-
-    // =========================
+   
     // COMANDO PING
-    // =========================
     if (message.body === '!ping') {
 
         await message.reply('pong 🏓');
 
     }
 
-    // =========================
     // TRANSFORMAR IMAGEM/VÍDEO EM FIGURINHA
-    // =========================
     if (
         message.hasMedia &&
         (
@@ -75,35 +71,25 @@ client.on('message', async (message) => {
 
     }
 
-    // =========================
+    
     // TRANSFORMAR LINK EM FIGURINHA
-    // EXEMPLO:
-    // !sticker https://site.com/imagem.jpg
-    // =========================
     if (message.body.startsWith('!sticker ')) {
 
         try {
-
-            // pega URL
             const imageUrl = message.body.split(' ')[1];
 
-            // baixa imagem
             const response = await axios.get(imageUrl, {
                 responseType: 'arraybuffer'
             });
-
-            // converte para base64
             const base64 = Buffer
                 .from(response.data, 'binary')
                 .toString('base64');
 
-            // cria mídia
             const media = new MessageMedia(
                 'image/jpeg',
                 base64
             );
 
-            // envia figurinha
             await client.sendMessage(
                 message.from,
                 media,
